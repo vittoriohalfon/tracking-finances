@@ -12,11 +12,13 @@ const registerUser = async (req, res) => {
         );
         res.status(201).send(`User created with ID: ${result.rows[0].user_id}`);
     } catch (error) {
+        console.error("Error during registration:", error.message);
         res.status(500).send('User registration failed.');
     }
 };
 
 const loginUser = async (req, res) => {
+    const { username, password } = req.body;
     try {
         const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
         if (user.rows.length > 0) {
@@ -31,6 +33,7 @@ const loginUser = async (req, res) => {
             res.status(400).send('User does not exist');
         }
     } catch (error) {
+        console.error("Error during login:", error.message);
         res.status(500).send('Login failed.');
     }
 };
