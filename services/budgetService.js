@@ -81,6 +81,10 @@ const getAlerts = async (req, res) => {
 };
 
 const setBudget = async (req, res) => {
+    // Check if req.user is defined
+    if (!req.user || !req.user.user_id) {
+        return res.status(401).send('Unauthorized - user not found');
+    }
     const { user_id } = req.user; // Extracted from the token
     const { category, limit_amount } = req.body;
 
