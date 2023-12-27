@@ -1,4 +1,4 @@
-**## Personal Finance Tracker API**
+****Personal Finance Tracker API****
 A backend API for a personal finance tracking application designed to help users manage their incomes and expenses efficiently.
 
 ## Features
