@@ -80,4 +80,36 @@ const getAlerts = async (req, res) => {
     }
 };
 
-module.exports = { getBudget, getTrends, getAlerts };
+const setBudget = async (req, res) => {
+    const { user_id } = req.user; // Extracted from the token
+    const { category, limit_amount } = req.body;
+
+    try {
+        // Check if a budget already exists for this user and category
+        const existingBudget = await pool.query(
+            'SELECT * FROM budgets WHERE user_id = $1 AND category = $2',
+            [user_id, category]
+        );
+
+        if (existingBudget.rows.length > 0) {
+            // Update the existing budget
+            const updatedBudget = await pool.query(
+                'UPDATE budgets SET limit_amount = $1 WHERE user_id = $2 AND category = $3 RETURNING *',
+                [limit_amount, user_id, category]
+            );
+            res.status(200).json(updatedBudget.rows[0]);
+        } else {
+            // Insert a new budget
+            const newBudget = await pool.query(
+                'INSERT INTO budgets (user_id, category, limit_amount) VALUES ($1, $2, $3) RETURNING *',
+                [user_id, category, limit_amount]
+            );
+            res.status(201).json(newBudget.rows[0]);
+        }
+    } catch (error) {
+        console.error('Error setting budget:', error);
+        res.status(500).send('Failed to set budget.');
+    }
+};
+
+module.exports = { getBudget, getTrends, getAlerts, setBudget };

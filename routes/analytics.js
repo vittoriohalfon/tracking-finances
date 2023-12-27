@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getBudget, getTrends, getAlerts } = require('../services/budgetService');
+const { getBudget, getTrends, getAlerts, setBudget } = require('../services/budgetService');
 const { authenticateToken } = require('../services/authService');
 
 router.get('/budget', authenticateToken, getBudget);
