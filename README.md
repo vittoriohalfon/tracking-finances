@@ -16,7 +16,7 @@ A backend API for a personal finance tracking application designed to help users
 
 ## Local Setup
 Clone the repository:
-git clone https://github.com/vittoriohalfon/finance-tracker.git
+git clone https://github.com/vittoriohalfon/tracking-finances
 
 ## Navigate to the project directory:
 cd finance-tracker
